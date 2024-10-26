@@ -1,0 +1,19 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+[build]
+  functions = "netlify/functions"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
