@@ -20,7 +20,7 @@ const Header = () => {
             <img className="w-12 " src={LOGO}/>
           </div>
           <div className="flex p-2 font-bold text-lg font-serif">
-              <h1 >Namaste Foodie</h1>
+              <h1 >SWIGGATO</h1>
           </div>
           </div>
             <div className= "flex  my-auto">
