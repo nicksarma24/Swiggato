@@ -1,7 +1,7 @@
 {
-  "name": "namaste-react",
+  "name": "",
   "version": "1.0.0",
-  "description": "This is namaste react by Alankrita",
+  "description": "",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html --dist-dir dist",
@@ -10,10 +10,9 @@
   "repository": {
     "type": "module",
     "git": "your-git-repository",
-    "url": "(https://github.com/Alankrita1998/namaste-react.git)"
+    "url": ""
   },
   "keywords": [],
-  "author": "'Alankrita Mohapatra'",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.25.2",
