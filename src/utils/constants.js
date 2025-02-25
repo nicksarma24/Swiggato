@@ -6,7 +6,7 @@ export const LINKEDIN = "https://www.linkedin.com/in/alankrita-mohapatra/";
 export const FOOD = "https://www.annmariegianni.com/wp-content/uploads/2014/05/brain-foods-1.jpg";
 export const CONTACT = "https://img.freepik.com/premium-vector/young-man-using-laptop-computer-desk-working-online-illustration_24877-69116.jpg?w=2000";
 export const EMPTY = "https://tse2.mm.bing.net/th?id=OIP.VEtjKjhwDm_M6AXOQmbZbwHaEX&pid=Api&P=0&h=220"; 
-export const BACKEND_URL = "https://foodieco-backend-216f2650ef56.herokuapp.com";
+export const BACKEND_URL = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.63270&lng=77.21980&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 export const RESTAURANT_LIST = `${BACKEND_URL}/api/restaurants`;
 export const MENU_URL = `${BACKEND_URL}/api/menu`;
 export const CDN_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
