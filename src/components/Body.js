@@ -176,6 +176,8 @@ const Body = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 12;
 
   useEffect(() => {
     fetchData();
@@ -229,6 +231,7 @@ const Body = () => {
     setIsSearching(true);
     setSuggestions([]);
     setShowSuggestions(false);
+    setCurrentPage(1);
   };
 
   const handleInputChange = (e) => {
@@ -240,6 +243,7 @@ const Body = () => {
       setShowSuggestions(false);
       setIsSearching(false);
       setFilterRestaurant(listOfRestaurants);
+      setCurrentPage(1);
       return;
     }
 
@@ -261,6 +265,7 @@ const Body = () => {
 
     setFilterRestaurant(filtered);
     setIsSearching(true);
+    setCurrentPage(1);
   };
 
   const handleKeyPress = (e) => {
@@ -275,6 +280,7 @@ const Body = () => {
     setIsSearching(false);
     setSuggestions([]);
     setShowSuggestions(false);
+    setCurrentPage(1);
   };
 
   const onlineStatus = useOnlineStatus();
@@ -297,6 +303,12 @@ const Body = () => {
     return null;
   }
 
+  const totalPages = Math.max(1, Math.ceil(filterRestaurant.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const startIndex = (safeCurrentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedRestaurants = filterRestaurant.slice(startIndex, endIndex);
+
   return listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
@@ -310,6 +322,7 @@ const Body = () => {
                 (res) => res.info.avgRating > 4
               );
               setFilterRestaurant(filteredList);
+              setCurrentPage(1);
             }}
           >
             Top Rated Restaurants!
@@ -319,6 +332,7 @@ const Body = () => {
             onClick={() => {
               const firstTen = listOfRestaurants.slice(0, 10);
               setFilterRestaurant(firstTen);
+              setCurrentPage(1);
             }}
           >
             Show 10 restaurants
@@ -371,13 +385,34 @@ const Body = () => {
         {filterRestaurant.length === 0 ? (
           <EmptySearch />
         ) : (
-          filterRestaurant.map((restaurant) => (
+          paginatedRestaurants.map((restaurant) => (
             <Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
               <RestaurantCard resData={restaurant} />
             </Link>
           ))
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {filterRestaurant.length > pageSize && (
+        <div className="flex items-center justify-center gap-2 my-6">
+          <button
+            className="px-3 py-1 border rounded disabled:opacity-50"
+            disabled={safeCurrentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+          >
+            Prev
+          </button>
+          <span className="text-sm">Page {safeCurrentPage} of {totalPages}</span>
+          <button
+            className="px-3 py-1 border rounded disabled:opacity-50"
+            disabled={safeCurrentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

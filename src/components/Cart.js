@@ -1,14 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import ItemList from "./ItemList";
 import { clearCart } from "../utils/cartSlice";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const Cart = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [countdown, setCountdown] = useState(5);
     const cartItems = useSelector((store) => store.cart.items);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const timerRef = useRef(null);
 
     const handleClear = () => {
         dispatch(clearCart())
@@ -17,13 +21,40 @@ const Cart = () => {
     const isCartEmpty = Object.keys(cartItems).length === 0;
 
     const handlePlaceOrder = () => {
-      setIsModalOpen(true); 
+      setIsModalOpen(true);
+      setCountdown(5);
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = setInterval(() => {
+        setCountdown((c) => c - 1);
+      }, 1000);
     };
 
     const handleCloseModal = () => {
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
       handleClear();
     };
+
+    useEffect(() => {
+      if (!isModalOpen) return;
+      if (countdown <= 0) {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+        handleClear();
+        navigate("/");
+      }
+    }, [countdown, isModalOpen]);
+
+    useEffect(() => {
+      return () => {
+        if (timerRef.current) clearInterval(timerRef.current);
+      }
+    }, []);
 
   return (
     <div className= " mx-64 my-4 shadow-2xl px-20 py-2">
@@ -80,6 +111,7 @@ const Cart = () => {
                     <div className="bg-slate-100 font-serif p-6 rounded shadow-lg mx-auto text-center">
                       <h2 className="text-lg font-sans font-bold mb-4">Order placed {"✅"}</h2>
                       <p className="text-sm">Thanks for ordering from Foodie.co !</p>
+                      <p className="text-xs mt-2">Redirecting to home in {countdown}s...</p>
                       <button
                         className="mt-4 font-serif text-xs bg-black text-white p-2 rounded"
                         onClick={() => {handleCloseModal()}}
