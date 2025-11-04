@@ -39,7 +39,6 @@
     "@reduxjs/toolkit": "^2.2.7",
     "body-parser": "^1.20.2",
     "bootstrap-icons": "^1.11.3",
-    "caniuse-lite": "^1.0.30001610",
     "express": "^4.19.2",
     "http-proxy-middleware": "^3.0.2",
     "node-fetch": "^3.3.2",
